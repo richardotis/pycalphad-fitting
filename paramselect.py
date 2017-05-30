@@ -159,7 +159,8 @@ def _symmetry_filter(x, config, symmetry):
 
 
 def _get_data(comps, phase_name, configuration, symmetry, datasets, prop):
-    configuration = tuple(configuration)
+    configuration = _list_to_tuple(configuration)
+    symmetry = _list_to_tuple(symmetry) if symmetry is not None else None
     desired_data = datasets.search((tinydb.where('output').test(lambda x: x in prop)) &
                                    (tinydb.where('components').test(lambda x: set(x).issubset(comps))) &
                                    (tinydb.where('solver').test(_symmetry_filter, configuration, symmetry)) &
